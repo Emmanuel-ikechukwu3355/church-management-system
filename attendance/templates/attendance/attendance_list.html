@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-3">Attendance Records</h2>
+<a href="{% url 'mark_attendance' %}" class="btn btn-primary mb-3">Mark Attendance</a>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Member</th>
+            <th>Event</th>
+            <th>Present</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in attendances %}
+        <tr>
+            <td>{{ record.member }}</td>
+            <td>{{ record.event }}</td>
+            <td>{{ record.present|yesno:'Yes,No' }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No attendance records found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

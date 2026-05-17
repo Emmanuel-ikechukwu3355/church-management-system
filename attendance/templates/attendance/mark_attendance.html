@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-3">Mark Attendance</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="event" class="form-label">Event</label>
+        <select name="event" id="event" class="form-select">
+            <option value="">Select Event</option>
+            {% for event in events %}
+                <option value="{{ event.id }}">{{ event.title }} - {{ event.date }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <h5>Present Members</h5>
+        {% for member in members %}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="present_{{ member.id }}" id="member-{{ member.id }}">
+                <label class="form-check-label" for="member-{{ member.id }}">{{ member.first_name }} {{ member.last_name }}</label>
+            </div>
+        {% endfor %}
+    </div>
+
+    <button type="submit" class="btn btn-success">Save Attendance</button>
+    <a href="{% url 'attendance_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+
+{% endblock %}

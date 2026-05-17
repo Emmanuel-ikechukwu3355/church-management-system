@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">Dashboard</h2>
+
+<div class="row">
+    <div class="col-md-3 mb-3">
+        <div class="card bg-primary text-white p-3">
+            <h5>Total Members</h5>
+            <h2>{{ total_members }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-success text-white p-3">
+            <h5>New This Month</h5>
+            <h2>{{ members_this_month }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-info text-white p-3">
+            <h5>Male Members</h5>
+            <h2>{{ male_count }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-warning text-dark p-3">
+            <h5>Female Members</h5>
+            <h2>{{ female_count }}</h2>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <div class="card p-3">
+            <h5 class="mb-3">Attendance Records</h5>
+            <p class="fs-3">{{ attendance_count }}</p>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card p-3">
+            <h5 class="mb-3">Total Events</h5>
+            <p class="fs-3">{{ total_events }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6 mb-3">
+        <div class="card p-3">
+            <h5>Monthly Growth</h5>
+            <table class="table table-sm mt-3">
+                <thead>
+                    <tr><th>Month</th><th>New Members</th></tr>
+                </thead>
+                <tbody>
+                    {% for item in monthly_growth %}
+                    <tr>
+                        <td>{{ item.month|date:'F Y' }}</td>
+                        <td>{{ item.count }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="2">No monthly growth data yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card p-3">
+            <h5>Gender Distribution</h5>
+            <table class="table table-sm mt-3">
+                <thead>
+                    <tr><th>Gender</th><th>Count</th></tr>
+                </thead>
+                <tbody>
+                    {% for item in gender_data %}
+                    <tr>
+                        <td>{{ item.gender }}</td>
+                        <td>{{ item.count }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="2">No gender data available.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
