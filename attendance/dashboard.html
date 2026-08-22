@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">Dashboard</h2>
+
+<div class="row">
+
+    <!-- Total Members -->
+    <div class="col-md-3">
+        <div class="card bg-primary text-white mb-3 p-3">
+            <h5>Total Members</h5>
+            <h2>{{ total_members }}</h2>
+        </div>
+    </div>
+
+    <!-- Members This Month -->
+    <div class="col-md-3">
+        <div class="card bg-success text-white mb-3 p-3">
+            <h5>New This Month</h5>
+            <h2>{{ members_this_month }}</h2>
+        </div>
+    </div>
+
+    <!-- Male -->
+    <div class="col-md-3">
+        <div class="card bg-info text-white mb-3 p-3">
+            <h5>Male</h5>
+            <h2>{{ male_count }}</h2>
+        </div>
+    </div>
+
+    <!-- Female -->
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark mb-3 p-3">
+            <h5>Female</h5>
+            <h2>{{ female_count }}</h2>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <!-- Attendance -->
+    <div class="col-md-6">
+        <div class="card bg-dark text-white mb-3 p-3">
+            <h5>Total Attendance Records</h5>
+            <h2>{{ attendance_count }}</h2>
+        </div>
+    </div>
+
+    <!-- Events -->
+    <div class="col-md-6">
+        <div class="card bg-secondary text-white mb-3 p-3">
+            <h5>Total Events</h5>
+            <h2>{{ total_events }}</h2>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
