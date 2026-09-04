@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- PAGE HEADER -->
+
+    <div class="mb-4">
+        <h1 class="fw-bold">Church Dashboard</h1>
+
+        <p class="text-muted">
+            Overview of your church management system
+        </p>
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <div class="row g-4">
+
+        <!-- TOTAL MEMBERS -->
+
+        <div class="col-md-6 col-lg-3">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                Total Members
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                {{ total_members }}
+                            </h2>
+                        </div>
+
+                        <div class="fs-1">
+                            👥
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TOTAL EVENTS -->
+
+        <div class="col-md-6 col-lg-3">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                Total Events
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                {{ total_events }}
+                            </h2>
+                        </div>
+
+                        <div class="fs-1">
+                            📅
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ATTENDANCE -->
+
+        <div class="col-md-6 col-lg-3">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                Attendance Today
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                {{ attendance_today }}
+                            </h2>
+                        </div>
+
+                        <div class="fs-1">
+                            ✅
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- NEW MEMBERS -->
+
+        <div class="col-md-6 col-lg-3">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                New Members This Month
+                            </p>
+
+                            <h2 class="fw-bold mb-0">
+                                {{ new_members_this_month }}
+                            </h2>
+                        </div>
+
+                        <div class="fs-1">
+                            🆕
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- QUICK ACTIONS -->
+
+    <div class="card border-0 shadow-sm mt-5">
+
+        <div class="card-body">
+
+            <h4 class="fw-bold mb-4">
+                Quick Actions
+            </h4>
+
+            <div class="d-flex flex-wrap gap-2">
+
+                <a
+                    href="{% url 'add_member' %}"
+                    class="btn btn-primary"
+                >
+                    + Add Member
+                </a>
+
+                <a
+                    href="{% url 'member_list' %}"
+                    class="btn btn-outline-primary"
+                >
+                    👥 View Members
+                </a>
+
+                <a
+                    href="{% url 'event_list' %}"
+                    class="btn btn-outline-primary"
+                >
+                    📅 View Events
+                </a>
+
+                <a
+                    href="{% url 'attendance_list' %}"
+                    class="btn btn-outline-primary"
+                >
+                    ✅ View Attendance
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- WELCOME SECTION -->
+
+    <div class="row mt-4">
+
+        <div class="col-md-8">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <h4 class="fw-bold">
+                        Welcome to Church System
+                    </h4>
+
+                    <p class="text-muted mb-0">
+                        Manage church members, track attendance,
+                        organize events and monitor church activities
+                        from one place.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

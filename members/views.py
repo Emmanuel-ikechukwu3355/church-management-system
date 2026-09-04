@@ -1,102 +1,102 @@
-# from django.shortcuts import render
-# from .models import Member
+from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
 
-# def member_list(request):
-#     members = Member.objects.all()
-#     return render(request, 'members/member_list.html', {'members': members})
-
-
-from django.shortcuts import get_object_or_404, redirect, render
-
-from .forms import MemberForm
 from .models import Member
-
-
-def add_member(request):
-    form = MemberForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('member_list')
-    return render(request, 'members/member_form.html', {'form': form})
-
-
-def edit_member(request, id):
-    member = get_object_or_404(Member, id=id)
-    form = MemberForm(request.POST or None, instance=member)
-    if form.is_valid():
-        form.save()
-        return redirect('member_list')
-    return render(request, 'members/member_form.html', {'form': form})
-
-
-def delete_member(request, id):
-    member = get_object_or_404(Member, id=id)
-    member.delete()
-    return redirect('member_list')
-
-from datetime import date
-
-from django.db.models import Count, Q
-from django.db.models.functions import TruncMonth
+from .forms import MemberForm
 
 
 def member_list(request):
+
     query = request.GET.get('q')
+
+    members = Member.objects.all().order_by('-date_joined')
+
     if query:
-        members = Member.objects.filter(
+        members = members.filter(
             Q(first_name__icontains=query) |
             Q(last_name__icontains=query) |
             Q(phone__icontains=query) |
             Q(email__icontains=query)
         )
+
+    return render(
+        request,
+        'members/member_list.html',
+        {
+            'members': members,
+            'query': query,
+        }
+    )
+
+
+def add_member(request):
+
+    if request.method == 'POST':
+
+        form = MemberForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('member_list')
+
     else:
-        members = Member.objects.all()
+        form = MemberForm()
 
-    return render(request, 'members/member_list.html', {
-        'members': members,
-        'query': query,
-    })
-
-
-def dashboard(request):
-    today = date.today()
-    total_members = Member.objects.count()
-    members_this_month = Member.objects.filter(
-        date_joined__year=today.year,
-        date_joined__month=today.month,
-    ).count()
-
-    monthly_growth = (
-        Member.objects
-        .annotate(month=TruncMonth('date_joined'))
-        .values('month')
-        .annotate(count=Count('id'))
-        .order_by('month')
+    return render(
+        request,
+        'members/member_form.html',
+        {
+            'form': form,
+            'title': 'Add Member',
+        }
     )
 
-    gender_data = (
-        Member.objects
-        .values('gender')
-        .annotate(count=Count('id'))
-        .order_by('gender')
+
+def edit_member(request, member_id):
+
+    member = get_object_or_404(Member, id=member_id)
+
+    if request.method == 'POST':
+
+        form = MemberForm(
+            request.POST,
+            instance=member
+        )
+
+        if form.is_valid():
+            form.save()
+            return redirect('member_list')
+
+    else:
+        form = MemberForm(instance=member)
+
+    return render(
+        request,
+        'members/member_form.html',
+        {
+            'form': form,
+            'title': 'Edit Member',
+        }
     )
 
-    male_count = Member.objects.filter(gender='Male').count()
-    female_count = Member.objects.filter(gender='Female').count()
 
-    from attendance.models import Attendance
-    from events.models import Event
+def delete_member(request, member_id):
 
-    attendance_count = Attendance.objects.count()
-    total_events = Event.objects.count()
+    member = get_object_or_404(
+        Member,
+        id=member_id
+    )
 
-    return render(request, 'members/dashboard.html', {
-        'total_members': total_members,
-        'members_this_month': members_this_month,
-        'monthly_growth': monthly_growth,
-        'gender_data': gender_data,
-        'male_count': male_count,
-        'female_count': female_count,
-        'attendance_count': attendance_count,
-        'total_events': total_events,
-    })
+    if request.method == 'POST':
+
+        member.delete()
+
+        return redirect('member_list')
+
+    return render(
+        request,
+        'members/member_confirm_delete.html',
+        {
+            'member': member,
+        }
+    )
